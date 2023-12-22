@@ -87,3 +87,41 @@ let createNewPacman = () => {
         oneBlockSize / 5
     );
 };
+
+
+if (j < map[0].length - 1 && map[i][j + 1] == 1) {
+    createRect(
+        j * oneBlockSize + wallOffset,
+        i * oneBlockSize + wallOffset,
+        wallSpaceWidth + wallOffset,
+        wallSpaceWidth,
+        wallInnerColor
+    );
+}
+
+if (i < map.length - 1 && map[i + 1][j] == 1) {
+    createRect(
+        j * oneBlockSize + wallOffset,
+        i * oneBlockSize + wallOffset,
+        wallSpaceWidth,
+        wallSpaceWidth + wallOffset,
+        wallInnerColor
+    );
+}
+
+
+let gameLoop = () => {
+    update();
+    draw();
+};
+
+let gameInterval = setInterval(gameLoop, 1000 / fps);
+
+let restartPacmanAndGhosts = () => {
+    createNewPacman();
+    createGhosts();
+};
+
+
+
+
