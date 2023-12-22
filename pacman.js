@@ -46,4 +46,20 @@ class Pacman {
         
     }
 
+
+
+    getMapY() {
+        let mapY = parseInt(this.y / oneBlockSize);
+
+        return mapY;
+    }
+
+
+    getMapX() {
+        let mapX = parseInt(this.x / oneBlockSize);
+        return mapX;
+    }
+
+   
+
 }

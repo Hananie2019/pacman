@@ -78,3 +78,12 @@ let map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
+let createNewPacman = () => {
+    pacman = new Pacman(
+        oneBlockSize,
+        oneBlockSize,
+        oneBlockSize,
+        oneBlockSize,
+        oneBlockSize / 5
+    );
+};
