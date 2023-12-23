@@ -2,52 +2,34 @@
 
 class Ghost {
 
-
     constructor(
         x,
         y,
-        range,
         width,
-        speed,
         height,
+        speed,
         imageX,
         imageY,
         imageWidth,
-        imageHeight
-
+        imageHeight,
+        range
     ) {
-
-
         this.x = x;
-
         this.y = y;
-
-        this.range = range;
-
         this.width = width;
-
-        this.speed = speed;
-
         this.height = height;
-
-        this.imageX = imageX;
-
-        this.imageY = imageY;
-
-        this.imageWidth = imageWidth;
-
-        this.imageHeight = imageHeight;
-
+        this.speed = speed;
         this.direction = DIRECTION_RIGHT;
-        
+        this.imageX = imageX;
+        this.imageY = imageY;
+        this.imageHeight = imageHeight;
+        this.imageWidth = imageWidth;
+        this.range = range;
         this.randomTargetIndex = parseInt(Math.random() * 4);
-
         this.target = randomTargetsForGhosts[this.randomTargetIndex];
-
         setInterval(() => {
             this.changeRandomDirection();
         }, 10000);
-
     }
 
 
@@ -63,27 +45,16 @@ class Ghost {
         ) {
             return true;
         }
+
         return false;
     }
 
-
-
-
     changeRandomDirection() {
 
         let addition = 1;
 
         this.randomTargetIndex += addition;
 
-        this.randomTargetIndex = this.randomTargetIndex % 4;
-    }
-
-    changeRandomDirection() {
-
-        let addition = 1;
-
-        this.randomTargetIndex += addition;
-        
         this.randomTargetIndex = this.randomTargetIndex % 4;
     }
 
@@ -102,16 +73,16 @@ class Ghost {
         this.moveForwards();
 
         if (this.checkCollisions()) {
+
             this.moveBackwards();
+
             return;
         }
-
     }
 
     moveBackwards() {
 
         switch (this.direction) {
-
             case 4: 
                 this.x -= this.speed;
                 break;
@@ -127,20 +98,17 @@ class Ghost {
             case 1: 
                 this.y -= this.speed;
                 break;
+
         }
     }
 
-
-
     moveForwards() {
-
         switch (this.direction) {
-
-            case 4: 
+            case 4:
                 this.x += this.speed;
                 break;
 
-            case 3:
+            case 3: 
                 this.y -= this.speed;
                 break;
 
@@ -151,16 +119,12 @@ class Ghost {
             case 1: 
                 this.y += this.speed;
                 break;
-
         }
     }
-
-
 
     checkCollisions() {
 
         let isCollided = false;
-
 
         if (
             map[parseInt(this.y / oneBlockSize)][
@@ -181,11 +145,7 @@ class Ghost {
         return isCollided;
     }
 
-
-
-
     changeDirectionIfPossible() {
-
         let tempDirection = this.direction;
 
         this.direction = this.calculateNewDirection(
@@ -193,14 +153,10 @@ class Ghost {
             parseInt(this.target.x / oneBlockSize),
             parseInt(this.target.y / oneBlockSize)
         );
-
-
         if (typeof this.direction == "undefined") {
             this.direction = tempDirection;
             return;
         }
-
-
         if (
             this.getMapY() != this.getMapYRightSide() &&
             (this.direction == DIRECTION_LEFT ||
@@ -208,28 +164,19 @@ class Ghost {
         ) {
             this.direction = DIRECTION_UP;
         }
-
-
         if (
             this.getMapX() != this.getMapXRightSide() &&
             this.direction == DIRECTION_UP
         ) {
             this.direction = DIRECTION_LEFT;
         }
-
         this.moveForwards();
-
         if (this.checkCollisions()) {
-
             this.moveBackwards();
             this.direction = tempDirection;
-
-        } 
-        
-        else {
+        } else {
             this.moveBackwards();
         }
-
         console.log(this.direction);
     }
 
@@ -240,50 +187,34 @@ class Ghost {
         }
 
         let queue = [
-
-            {   x: this.getMapX(),
+            {
+                x: this.getMapX(),
                 y: this.getMapY(),
                 rightX: this.getMapXRightSide(),
                 rightY: this.getMapYRightSide(),
                 moves: [],
             },
-
         ];
-
-
-
         while (queue.length > 0) {
-
             let poped = queue.shift();
-
             if (poped.x == destX && poped.y == destY) {
                 return poped.moves[0];
-            } 
-            
-            else {
+            } else {
                 mp[poped.y][poped.x] = 1;
                 let neighborList = this.addNeighbors(poped, mp);
                 for (let i = 0; i < neighborList.length; i++) {
                     queue.push(neighborList[i]);
                 }
             }
-
         }
 
         return 1; 
     }
 
-
-
     addNeighbors(poped, mp) {
-
-
         let queue = [];
-
         let numOfRows = mp.length;
-
         let numOfColumns = mp[0].length;
-
 
         if (
             poped.x - 1 >= 0 &&
@@ -294,8 +225,6 @@ class Ghost {
             tempMoves.push(DIRECTION_LEFT);
             queue.push({ x: poped.x - 1, y: poped.y, moves: tempMoves });
         }
-
-
         if (
             poped.x + 1 >= 0 &&
             poped.x + 1 < numOfRows &&
@@ -305,8 +234,6 @@ class Ghost {
             tempMoves.push(DIRECTION_RIGHT);
             queue.push({ x: poped.x + 1, y: poped.y, moves: tempMoves });
         }
-
-
         if (
             poped.y - 1 >= 0 &&
             poped.y - 1 < numOfColumns &&
@@ -316,8 +243,6 @@ class Ghost {
             tempMoves.push(DIRECTION_UP);
             queue.push({ x: poped.x, y: poped.y - 1, moves: tempMoves });
         }
-
-
         if (
             poped.y + 1 >= 0 &&
             poped.y + 1 < numOfColumns &&
@@ -330,11 +255,9 @@ class Ghost {
         return queue;
     }
 
-
-
-    getMapYRightSide() {
-        let mapY = parseInt((this.y * 0.99 + oneBlockSize) / oneBlockSize);
-        return mapY;
+    getMapX() {
+        let mapX = parseInt(this.x / oneBlockSize);
+        return mapX;
     }
 
     getMapY() {
@@ -347,67 +270,4 @@ class Ghost {
         return mapX;
     }
 
-    getMapX() {
-        let mapX = parseInt(this.x / oneBlockSize);
-        return mapX;
-    }
-
    
-
-    changeAnimation() {
-        this.currentFrame =
-            this.currentFrame == this.frameCount ? 1 : this.currentFrame + 1;
-    }
-
-    draw() {
-        canvasContext.save();
-
-        canvasContext.drawImage(
-
-            ghostFrames,
-            this.imageX,
-            this.imageY,
-            this.imageWidth,
-            this.imageHeight,
-            this.x,
-            this.y,
-            this.width,
-            this.height
-        );
-
-        canvasContext.restore();
-
-        canvasContext.beginPath();
-
-        canvasContext.strokeStyle = "red";
-
-        canvasContext.arc(
-
-            this.x + oneBlockSize / 2,
-            this.y + oneBlockSize / 2,
-            this.range * oneBlockSize,
-            0,
-            2 * Math.PI
-        );
-
-        canvasContext.stroke();
-    }
-}
-
-let updateGhosts = () => {
-    for (let i = 0; i < ghosts.length; i++) {
-        ghosts[i].moveProcess();
-    }
-};
-
-
-let drawGhosts = () => {
-    for (let i = 0; i < ghosts.length; i++) {
-        ghosts[i].draw();
-    }
-};
-
-
-
-
-
