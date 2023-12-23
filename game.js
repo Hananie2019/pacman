@@ -122,6 +122,65 @@ let restartPacmanAndGhosts = () => {
     createGhosts();
 };
 
+let randomTargetsForGhosts = [
+    { x: 1 * oneBlockSize, y: 1 * oneBlockSize },
+    { x: 1 * oneBlockSize, y: (map.length - 2) * oneBlockSize },
+    { x: (map[0].length - 2) * oneBlockSize, y: oneBlockSize },
+    {
+        x: (map[0].length - 2) * oneBlockSize,
+        y: (map.length - 2) * oneBlockSize,
+    },
+];
+
+
+let onGhostCollision = () => {
+
+    lives--;
+
+    restartPacmanAndGhosts();
+
+    if (lives == 0) {
+    }
+};
+
+let update = () => {
+
+    pacman.moveProcess();
+
+    pacman.eat();
+
+    updateGhosts();
+
+    if (pacman.checkGhostCollision(ghosts)) {
+        onGhostCollision();
+    }
+};
+
+
+let drawFoods = () => {
+
+    for (let i = 0; i < map.length; i++) {
+
+        for (let j = 0; j < map[0].length; j++) {
+
+            if (map[i][j] == 2) {
+                createRect(
+                    j * oneBlockSize + oneBlockSize / 3,
+                    i * oneBlockSize + oneBlockSize / 3,
+                    oneBlockSize / 3,
+                    oneBlockSize / 3,
+                    "#FEB897"
+                );
+            }
+
+
+            
+        }
+    }
+};
+
+
+
 
 
 
