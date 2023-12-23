@@ -268,6 +268,58 @@ class Ghost {
     getMapXRightSide() {
         let mapX = parseInt((this.x * 0.99 + oneBlockSize) / oneBlockSize);
         return mapX;
+
     }
+
+
+
+ getMapYRightSide() {
+    let mapY = parseInt((this.y * 0.99 + oneBlockSize) / oneBlockSize);
+    return mapY;
+}
+
+changeAnimation() {
+    this.currentFrame =
+        this.currentFrame == this.frameCount ? 1 : this.currentFrame + 1;
+}
+
+draw() {
+    canvasContext.save();
+    canvasContext.drawImage(
+        ghostFrames,
+        this.imageX,
+        this.imageY,
+        this.imageWidth,
+        this.imageHeight,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+    );
+    canvasContext.restore();
+    canvasContext.beginPath();
+    canvasContext.strokeStyle = "red";
+    canvasContext.arc(
+        this.x + oneBlockSize / 2,
+        this.y + oneBlockSize / 2,
+        this.range * oneBlockSize,
+        0,
+        2 * Math.PI
+    );
+    canvasContext.stroke();
+}
+}
+
+let updateGhosts = () => {
+for (let i = 0; i < ghosts.length; i++) {
+    ghosts[i].moveProcess();
+}
+};
+
+let drawGhosts = () => {
+for (let i = 0; i < ghosts.length; i++) {
+    ghosts[i].draw();
+}
+};
 
    
