@@ -1,31 +1,21 @@
 
 
 const canvas = document.getElementById("canvas");
-
 const canvasContext = canvas.getContext("2d");
-
 const pacmanFrames = document.getElementById("animation");
-
 const ghostFrames = document.getElementById("ghosts");
 
 let createRect = (x, y, width, height, color) => {
     canvasContext.fillStyle = color;
-
     canvasContext.fillRect(x, y, width, height);
 };
 
 const DIRECTION_RIGHT = 4;
-
 const DIRECTION_UP = 3;
-
 const DIRECTION_LEFT = 2;
-
 const DIRECTION_BOTTOM = 1;
-
 let lives = 3;
-
 let ghostCount = 4;
-
 let ghostImageLocations = [
     { x: 0, y: 0 },
     { x: 176, y: 0 },
@@ -79,7 +69,6 @@ let randomTargetsForGhosts = [
         y: (map.length - 2) * oneBlockSize,
     },
 ];
-
 
 
 let createNewPacman = () => {
@@ -137,11 +126,8 @@ let drawFoods = () => {
 };
 
 let drawRemainingLives = () => {
-
     canvasContext.font = "20px Emulogic";
-
     canvasContext.fillStyle = "white";
-    
     canvasContext.fillText("Lives: ", 220, oneBlockSize * (map.length + 1));
 
     for (let i = 0; i < lives; i++) {
@@ -255,29 +241,23 @@ let createGhosts = () => {
 };
 
 createNewPacman();
-
 createGhosts();
-
 gameLoop();
-
 
 window.addEventListener("keydown", (event) => {
     let k = event.keyCode;
     setTimeout(() => {
         if (k == 37 || k == 65) {
-           
+            // left arrow or a
             pacman.nextDirection = DIRECTION_LEFT;
-        } 
-        else if (k == 38 || k == 87) {
-            
+        } else if (k == 38 || k == 87) {
+            // up arrow or w
             pacman.nextDirection = DIRECTION_UP;
-        } 
-        else if (k == 39 || k == 68) {
-            
+        } else if (k == 39 || k == 68) {
+            // right arrow or d
             pacman.nextDirection = DIRECTION_RIGHT;
-        } 
-        else if (k == 40 || k == 83) {
-            
+        } else if (k == 40 || k == 83) {
+            // bottom arrow or s
             pacman.nextDirection = DIRECTION_BOTTOM;
         }
     }, 1);
